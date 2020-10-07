@@ -15,7 +15,7 @@ The implementation is intended to enable forecasting of hypothetical scenarios u
 
 ## Scenarios
 
-In the main script, one can choose from 3 different hypothetical scenarios, which are studied in a related research article by Achim Doerre and Gabriele Doblhammer. These relate to different variations of partial lockdown measures. Since they are hypothetical in nature,
+In the main script, one can choose from 3 different hypothetical scenarios, which are studied in a related research article by Achim Doerre and Gabriele Doblhammer. These relate to different variations of partial lockdown measures. Since they are hypothetical in nature, the scenarios do not necessarily represent the actual course of the epidemic.
 
 
 
