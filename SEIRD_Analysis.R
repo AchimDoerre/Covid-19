@@ -60,10 +60,6 @@ alpha = 0.2
 #(choose from {200430, 201017, 201216})
 choose_IncDist_reference_day = "200430"
 
-#choose download date to base Icum0, Rcum0 and Dcum0 on
-#(choose from {201216, 210106})
-download_date = "210106"
-
 #7-day incidence rate to start simulation from
 base_7day_incidence = 7
 
