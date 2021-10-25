@@ -23,6 +23,8 @@
 ##
 ## The script has been edited and simplified for illustration of the method and for
 ## potentially adjusting it to similar setups and settings.
+##
+## In this implementation, vaccination is *not* reconsidered.
 ##   
 ##
 ## --------------------------------------------------------------------------------------------------
@@ -33,9 +35,9 @@
 setwd("...")
 
 #auxiliary functions and the core of the numerical implementation
-source("RCode/general_functions.R")
-source("RCode/general_settings.R")
-source("RCode/Model_core.R")
+source("general_functions.R")
+source("general_settings.R")
+source("Model_core.R")
 
 
 scenario = 1
@@ -75,7 +77,7 @@ ngroups = length(groups)
 
 #matrix of social contact rates
 #here: 9 age groups x 2 sex = 18 groups, therefore 18x18 matrix
-CM = as.matrix(read.table("Data/ContactRates.txt", header=T))
+CM = as.matrix(read.table("ContactRates.txt", header=T))
 
 
 #determining the initial cumulative and active compartment settings;
@@ -266,6 +268,48 @@ if (scenario == 4){
   
   CM[1:9,1:9] = CM[10:18,10:18]
   CM[1:9,10:18] = CM[1:9,10:18]
+}
+
+
+
+#scenario 5 (offices and schools reopen, female contacts same as males, delta variant)
+if (scenario == 5){
+  redfact = 0.05
+  mitfactor = matrix(alpha, 18, 18)
+  mitfactor[2:3, 2:3] = alpha + redfact
+  mitfactor[2:3, 4:6] = alpha + redfact/2
+  mitfactor[4:6, 2:3] = alpha + redfact/2
+  mitfactor[4:6, 4:6] = alpha + redfact
+  mitfactor[4:6, 7] = alpha + redfact/2
+  mitfactor[7, 4:6] = alpha + redfact/2
+  
+  mitfactor[11:12, 11:12] = alpha + redfact
+  mitfactor[11:12, 13:15] = alpha + redfact/2
+  mitfactor[11:15, 11:12] = alpha + redfact/2
+  mitfactor[13:15, 13:15] = alpha + redfact
+  mitfactor[13:15, 16] = alpha + redfact/2
+  mitfactor[16, 13:15] = alpha + redfact/2
+  
+  mitfactor[2:3, 11:12] = alpha + redfact
+  mitfactor[2:3, 13:15] = alpha + redfact/2
+  mitfactor[4:6, 11:12] = alpha + redfact/2
+  mitfactor[4:6, 13:15] = alpha + redfact
+  mitfactor[4:6, 16] = alpha + redfact/2
+  mitfactor[7, 13:15] = alpha + redfact/2
+  
+  mitfactor[11:12, 2:3] = alpha + redfact
+  mitfactor[11:12, 4:6] = alpha + redfact/2
+  mitfactor[13:15, 2:3] = alpha + redfact/2
+  mitfactor[13:15, 4:6] = alpha + redfact
+  mitfactor[13:15, 7] = alpha + redfact/2
+  mitfactor[16, 4:6] = alpha + redfact/2
+  
+  CM[1:9,1:9] = CM[10:18,10:18]
+  CM[1:9,10:18] = CM[1:9,10:18]
+  
+  #secondary attack rate adjusted for delta variant
+  #(basic reproducion number R0~5.08 in comparison to R0~2.79 for the wild type)
+  wmin = 5.08/2.79*0.132*td
 }
 
 
